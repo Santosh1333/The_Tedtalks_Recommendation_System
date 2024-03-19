@@ -74,20 +74,23 @@ def main():
     # Input for user to enter their talk content
     talk_content = st.text_input('Enter your talk content:')
 
+    # Get the current position from session state or set it to 0 if not yet initialized
+    if 'position' not in st.session_state:
+        st.session_state.position = 0
+
     if st.button('Recommend Talks'):
         # Get recommendations
         recommended_titles = recommend_talks_with_sentiment([talk_content], comments)
         
         # Display recommended titles
         st.subheader('Recommended Talks:')
-        for index, title in enumerate(recommended_titles[:5]):
+        for index, title in enumerate(recommended_titles[st.session_state.position : st.session_state.position + 5]):
             st.write(f"{index+1}. {title}")
 
-        if len(recommended_titles) > 5:
-            show_next = st.button('Next')
-            if show_next:
-                for index, title in enumerate(recommended_titles[5:10]):
-                    st.write(f"{index+6}. {title}")
+        if len(recommended_titles) > st.session_state.position + 5:
+            # Update position when "Next" button is clicked
+            if st.button('Next'):
+                st.session_state.position += 5
 
 if __name__ == '__main__':
     main()
