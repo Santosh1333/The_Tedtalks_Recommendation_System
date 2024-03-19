@@ -69,7 +69,22 @@ def recommend_talks_with_sentiment(talk_content, comments, data=df):
 
 # Define Streamlit app
 def main():
-    st.title('TED Talks Recommendation System')
+    st.markdown(
+        """
+        <style>
+            body {
+                background-image: url("https://example.com/background.jpg");
+                background-size: cover;
+            }
+            .title {
+                color: red;
+            }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.title('TED Talk Recommendation System')
 
     # Input for user to enter their talk content
     talk_content = st.text_input('Enter your talk content:')
