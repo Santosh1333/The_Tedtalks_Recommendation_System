@@ -69,7 +69,7 @@ def recommend_talks_with_sentiment(talk_content, comments, data=df):
 
 # Define Streamlit app
 def main():
-    st.title('TED Talk Recommendation System')
+    st.title('TED Talks Recommendation System')
 
     # Input for user to enter their talk content
     talk_content = st.text_input('Enter your talk content:')
