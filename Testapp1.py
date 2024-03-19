@@ -5,7 +5,6 @@ import string
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from textblob import TextBlob
-import pickle
 import streamlit as st
 
 # Download NLTK stopwords
@@ -73,7 +72,7 @@ def main():
         """
         <style>
             body {
-                background-image: url("https://example.com/background.jpg");
+                background-image: url("background.jpg");
                 background-size: cover;
             }
             .title {
