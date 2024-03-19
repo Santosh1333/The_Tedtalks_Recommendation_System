@@ -1,4 +1,3 @@
-%%writefile Testapp1.py
 import numpy as np
 import pandas as pd
 import nltk
