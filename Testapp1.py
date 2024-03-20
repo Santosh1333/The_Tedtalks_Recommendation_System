@@ -55,7 +55,8 @@ def get_similarities(talk_content, data=df):
     return sim.flatten()  # Flatten the similarity matrix to a 1D array
 
 # Function to recommend talks with sentiment analysis
-def recommend_talks_with_sentiment(talk_content, comments, data=df):
+@st.cache
+def recommend_talks_with_sentiment(talk_content, comments, data=df, num_talks=10):
     cos_similarities = get_similarities(talk_content)
     comment_sentiments = comments.apply(analyze_sentiment).values
 
@@ -65,7 +66,7 @@ def recommend_talks_with_sentiment(talk_content, comments, data=df):
 
     # Sort by score and display top recommendations
     recommended_talks = data.sort_values(by='score', ascending=False)
-    return recommended_talks[['title', 'publushed_date', 'like_count']].head(10)  # Return titles, published dates, and like counts
+    return recommended_talks[['title', 'publushed_date', 'like_count']].head(num_talks)  # Return only titles
 
 # Define Streamlit app
 def main():
@@ -76,15 +77,21 @@ def main():
 
     if st.button('Recommend Talks'):
         # Get recommendations
-        recommended_talks = recommend_talks_with_sentiment([talk_content], comments)
+        recommended_titles = recommend_talks_with_sentiment([talk_content], comments)
         
-        # Display recommended talks in tiles
+        # Display recommended titles
         st.subheader('Recommended Talks:')
-        for index, row in enumerate(recommended_talks.itertuples(), start=1):
-            search_query = row.title.replace(' ', '+')
-            google_link = f"https://www.google.com/search?q={search_query}"
-            st.write(f"**{index}) {row.title}** - [Go]({google_link})")
-            st.write(f"          Published Date: {row.publushed_date}, Likes: {int(row.like_count)}")
+        for index, row in recommended_titles.iterrows():
+            st.write(f"{index+1}) {row['title']} - [Go]({google_link})", unsafe_allow_html=True)
+            st.write(f"          Published Date: {row['publushed_date']}, Likes: {int(row['like_count'])}")
+
+    # Load more button
+    if len(recommended_titles) == 10:
+        if st.button('Load More'):
+            recommended_titles = recommend_talks_with_sentiment([talk_content], comments, num_talks=20)
+            for index, row in recommended_titles.iloc[10:].iterrows():
+                st.write(f"{index+1}) {row['title']} - [Go]({google_link})", unsafe_allow_html=True)
+                st.write(f"          Published Date: {row['publushed_date']}, Likes: {int(row['like_count'])}")
 
 if __name__ == '__main__':
     main()
