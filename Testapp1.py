@@ -80,10 +80,11 @@ def main():
         
         # Display recommended talks in tiles
         st.subheader('Recommended Talks:')
-        for index, row in recommended_talks.iterrows():
-            search_query = row['title'].replace(' ', '+')
+        for index, row in enumerate(recommended_talks.itertuples(), start=1):
+            search_query = row.title.replace(' ', '+')
             google_link = f"https://www.google.com/search?q={search_query}"
-            st.write(f"**{index+1}) {row['title']}** - [{row['publushed_date']} - {row['like_count']} Likes]({google_link})")
+            st.write(f"**{index}) {row.title}** - [Go]({google_link})")
+            st.write(f"Published Date: {row.published_date}, Likes: {row.like_count}")
 
 if __name__ == '__main__':
     main()
