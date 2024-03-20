@@ -80,9 +80,9 @@ def main():
         
         # Display recommended titles
         st.subheader('Recommended Talks:')
-        for title in recommended_titles:
+        for index, title in enumerate(recommended_titles, start=1):
             link = f"https://www.google.com/search?q={title.replace(' ', '+')}"
-            st.write(f"[{title}]({link})", unsafe_allow_html=True)
+            st.write(f"{index}. [{title}]({link})", unsafe_allow_html=True)
 
 if __name__ == '__main__':
     main()
