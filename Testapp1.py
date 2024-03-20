@@ -84,7 +84,7 @@ def main():
             search_query = row.title.replace(' ', '+')
             google_link = f"https://www.google.com/search?q={search_query}"
             st.write(f"**{index}) {row.title}** - [Go]({google_link})")
-            st.write(f"          Published Date: {row.published_date}, Likes: {int(row.like_count)}")
+            st.write(f"          Published Date: {row.publushed_date}, Likes: {int(row.like_count)}")
 
 if __name__ == '__main__':
     main()
