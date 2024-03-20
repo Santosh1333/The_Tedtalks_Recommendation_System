@@ -83,7 +83,7 @@ def main():
         for index, title in enumerate(recommended_titles, start=1):
             search_query = title.replace(' ', '+')
             google_link = f"https://www.google.com/search?q={search_query}"
-            st.write(f"{index}) Result - {title} - [GO]({google_link})", unsafe_allow_html=True)
+            st.write(f"{index}) {title} - [Go]({google_link})", unsafe_allow_html=True)
 
 if __name__ == '__main__':
     main()
