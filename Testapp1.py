@@ -86,12 +86,11 @@ def main():
             st.write(f"          Published Date: {row['publushed_date']}, Likes: {int(row['like_count'])}")
 
     # Load more button
-    if len(recommended_titles) == 10:
-        if st.button('Load More'):
-            recommended_titles = recommend_talks_with_sentiment([talk_content], comments, num_talks=20)
-            for index, row in recommended_titles.iloc[10:].iterrows():
-                st.write(f"{index+1}) {row['title']} - [Go]({google_link})", unsafe_allow_html=True)
-                st.write(f"          Published Date: {row['publushed_date']}, Likes: {int(row['like_count'])}")
+    if st.button('Load More'):
+        recommended_titles = recommend_talks_with_sentiment([talk_content], comments, num_talks=20)
+        for index, row in recommended_titles.iloc[10:].iterrows():
+            st.write(f"{index+1}) {row['title']} - [Go]({google_link})", unsafe_allow_html=True)
+            st.write(f"          Published Date: {row['publushed_date']}, Likes: {int(row['like_count'])}")
 
 if __name__ == '__main__':
     main()
