@@ -65,7 +65,7 @@ def recommend_talks_with_sentiment(talk_content, comments, data=df):
 
     # Sort by score and display top recommendations
     recommended_talks = data.sort_values(by='score', ascending=False)
-    return recommended_talks[['title', 'url']].head(10)  # Return titles and URLs
+    return recommended_talks['title'].head(10)  # Return only titles
 
 # Define Streamlit app
 def main():
@@ -76,13 +76,14 @@ def main():
 
     if st.button('Recommend Talks'):
         # Get recommendations
-        recommended_talks = recommend_talks_with_sentiment([talk_content], comments)
+        recommended_titles = recommend_talks_with_sentiment([talk_content], comments)
         
         # Display recommended titles
         st.subheader('Recommended Talks:')
-        for index, row in recommended_talks.iterrows():
-            result_link = f"[{row['title']}]({row['url']})"
-            st.write(f"{index+1}) Result - {row['title']} - {result_link}", unsafe_allow_html=True)
+        for index, title in enumerate(recommended_titles, start=1):
+            search_query = title.replace(' ', '+')
+            google_link = f"https://www.google.com/search?q={search_query}"
+            st.write(f"{index}) Result - {title} - [GO]({google_link})", unsafe_allow_html=True)
 
 if __name__ == '__main__':
     main()
