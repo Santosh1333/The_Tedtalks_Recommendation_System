@@ -83,7 +83,7 @@ def main():
         for index, row in recommended_talks.iterrows():
             search_query = row['title'].replace(' ', '+')
             google_link = f"https://www.google.com/search?q={search_query}"
-            st.markdown(f"**{index+1}) {row['title']}** - [{row['published_date']} - {row['like_count']} Likes]({google_link})")
+            st.markdown(f"{index+1}) [{row['title']}]({google_link}) - Published Date: {row['publushed_date']} - Likes: {row['like_count']}", unsafe_allow_html=True)
 
 if __name__ == '__main__':
     main()
