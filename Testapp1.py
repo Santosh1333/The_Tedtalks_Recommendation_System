@@ -6,6 +6,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from textblob import TextBlob
 import streamlit as st
+import webbrowser
 
 # Download NLTK stopwords
 nltk.download('stopwords')
@@ -64,25 +65,10 @@ def recommend_talks_with_sentiment(talk_content, comments, data=df):
 
     # Sort by score and display top recommendations
     recommended_talks = data.sort_values(by='score', ascending=False)
-    return recommended_talks['title'].tolist()  # Return only titles
+    return recommended_talks['title'].head(10)  # Return only titles
 
 # Define Streamlit app
 def main():
-    st.markdown(
-        """
-        <style>
-            body {
-                background-image: url("background.jpg");
-                background-size: cover;
-            }
-            .title {
-                color: red;
-            }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-
     st.title('TED Talk Recommendation System')
 
     # Input for user to enter their talk content
@@ -94,14 +80,9 @@ def main():
         
         # Display recommended titles
         st.subheader('Recommended Talks:')
-        for index, title in enumerate(recommended_titles[:10]):
-            st.write(f"{index+1}. {title}")
-
-        if len(recommended_titles) > 10:
-            show_next = st.button('Next')
-            if show_next:
-                for index, title in enumerate(recommended_titles[10:20]):
-                    st.write(f"{index+11}. {title}")
+        for title in recommended_titles:
+            link = f"https://www.google.com/search?q={title.replace(' ', '+')}"
+            st.write(f"[{title}]({link})", unsafe_allow_html=True)
 
 if __name__ == '__main__':
     main()
