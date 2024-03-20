@@ -65,7 +65,7 @@ def recommend_talks_with_sentiment(talk_content, comments, data=df):
 
     # Sort by score and display top recommendations
     recommended_talks = data.sort_values(by='score', ascending=False)
-    return recommended_talks[['title', 'published_date', 'like_count']].head(10)  # Return titles, published dates, and like counts
+    return recommended_talks[['title', 'publushed_date', 'like_count']].head(10)  # Return titles, published dates, and like counts
 
 # Define Streamlit app
 def main():
