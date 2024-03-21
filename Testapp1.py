@@ -13,7 +13,7 @@ nltk.download('stopwords')
 nltk.download('punkt')
 
 # Load TED Talks data
-df = pd.read_csv('JOINT_ted_video_transcripts_comments_stats.csv')
+df = pd.read_csv('JOINT_ted_video_transcripts_comments_stats (2).csv')
 
 # Remove rows with null values
 df = df.dropna()
