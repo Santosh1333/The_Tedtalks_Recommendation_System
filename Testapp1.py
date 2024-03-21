@@ -61,7 +61,7 @@ def recommend_talks_with_sentiment(talk_content, comments, data=df, num_talks=10
     comment_sentiments = comments.apply(analyze_sentiment).values
 
     # Combine cosine similarities and sentiment analysis
-    weighted_score = 0.7 * cos_similarities + 0.3 * comment_sentiments
+    weighted_score = 0.8 * cos_similarities + (-0.3 )* comment_sentiments
     data['score'] = weighted_score
 
     # Sort by score and display top recommendations
