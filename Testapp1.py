@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import nltk
-import string
+import string  # Adding the import statement for the string module
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from textblob import TextBlob
@@ -81,11 +81,13 @@ def main():
         
         # Display recommended titles
         st.subheader('Recommended Talks:')
+        count = 1  # Initialize count for numbering
         for index, row in recommended_titles.iterrows():
             search_query = row['title'].replace(' ', '+')
             google_link = f"https://www.google.com/search?q={search_query}"
-            st.write(f"{index+1}) {row['title']} - [Go]({google_link})", unsafe_allow_html=True)
+            st.write(f"{count}) {row['title']} - [Go]({google_link})", unsafe_allow_html=True)
             st.write(f"          Published Date: {row['publushed_date']}, Likes: {int(row['like_count'])}")
+            count += 1  # Increment count
 
         # Load more button
         if st.button('Load More'):
@@ -93,8 +95,9 @@ def main():
             for index, row in recommended_titles.iloc[10:].iterrows():
                 search_query = row['title'].replace(' ', '+')
                 google_link = f"https://www.google.com/search?q={search_query}"
-                st.write(f"{index+1}) {row['title']} - [Go]({google_link})", unsafe_allow_html=True)
+                st.write(f"{count}) {row['title']} - [Go]({google_link})", unsafe_allow_html=True)
                 st.write(f"          Published Date: {row['publushed_date']}, Likes: {int(row['like_count'])}")
+                count += 1  # Increment count
 
 if __name__ == '__main__':
     main()
