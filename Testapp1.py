@@ -7,7 +7,16 @@ from sklearn.metrics.pairwise import cosine_similarity
 from textblob import TextBlob
 import streamlit as st
 import webbrowser
+import datetime
 
+def display_time():
+  """Displays the current system time."""
+
+  now = datetime.datetime.now()
+  st.write(f"The current time is: {now}")
+
+if __name__ == "__main__":
+  display_time()
 # Download NLTK stopwords
 nltk.download('stopwords')
 nltk.download('punkt')
