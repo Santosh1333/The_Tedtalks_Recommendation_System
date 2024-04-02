@@ -16,7 +16,8 @@ def display_time():
     ist = pytz.timezone('Asia/Kolkata')
     now = datetime.datetime.now(ist)
     current_time = now.strftime("%I:%M:%S %p")
-    st.write(f"Time {current_time}")
+    st.markdown(current_time)
+
 
 if __name__ == "__main__":
   display_time()
