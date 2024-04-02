@@ -8,6 +8,7 @@ from textblob import TextBlob
 import streamlit as st
 import webbrowser
 import datetime
+import pytz
 
 def display_time():
     """Displays the current Indian Standard Time."""
