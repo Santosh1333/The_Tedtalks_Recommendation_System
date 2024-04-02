@@ -10,10 +10,11 @@ import webbrowser
 import datetime
 
 def display_time():
-  """Displays the current system time."""
+  """Displays the current system time in 12-hour format."""
 
   now = datetime.datetime.now()
-  st.write(f"The current time is: {now}")
+  current_time = now.strftime("%I:%M:%S %p")
+  st.write(f"The current time is: {current_time}")
 
 if __name__ == "__main__":
   display_time()
