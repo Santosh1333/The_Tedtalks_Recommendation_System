@@ -10,11 +10,12 @@ import webbrowser
 import datetime
 
 def display_time():
-  """Displays the current system time in 12-hour format."""
-
-  now = datetime.datetime.now()
-  current_time = now.strftime("%I:%M:%S %p")
-  st.write(f"The current time is: {current_time}")
+    """Displays the current Indian Standard Time."""
+    # Set the timezone to Indian Standard Time (IST)
+    ist = pytz.timezone('Asia/Kolkata')
+    now = datetime.datetime.now(ist)
+    current_time = now.strftime("%I:%M:%S %p")
+    st.write(f"Time {current_time}")
 
 if __name__ == "__main__":
   display_time()
