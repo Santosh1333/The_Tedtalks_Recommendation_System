@@ -22,12 +22,12 @@ def set_background(image_path):
     Function to set background image for Streamlit app.
     """
     # Set CSS for the background
-    background_css = f """
+    background_css = """
         <style>
-        .stApp {{
-            background-image: url("{background.jpg}");
+        .stApp {
+            background-image: url("""" + background.jpg + """");
             background-size: cover;
-        }}
+        }
         </style>
     """
     # Insert background CSS
@@ -100,7 +100,7 @@ def main():
         count = 1  
         for index, row in recommended_titles.iterrows():
             search_query = row['title'].replace(' ', '+')
-            google_link = f"https://www.google.com/search?q={search_query}"
+            google_link = "https://www.google.com/search?q=" + search_query
             st.write(f"{count}) {row['title']} - [Go]({google_link})", unsafe_allow_html=True)
             st.write(f"          Published Date: {row['publushed_date']}, Likes: {int(row['like_count'])}")
             count += 1  
@@ -109,7 +109,7 @@ def main():
             recommended_titles = recommend_talks_with_sentiment([talk_content], comments, num_talks=20)
             for index, row in recommended_titles.iloc[10:].iterrows():
                 search_query = row['title'].replace(' ', '+')
-                google_link = f"https://www.google.com/search?q={search_query}"
+                google_link = "https://www.google.com/search?q=" + search_query
                 st.write(f"{count}) {row['title']} - [Go]({google_link})", unsafe_allow_html=True)
                 st.write(f"          Published Date: {row['publushed_date']}, Likes: {int(row['like_count'])}")
                 count += 1  
