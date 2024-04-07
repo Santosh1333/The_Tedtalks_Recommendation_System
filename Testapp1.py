@@ -19,6 +19,26 @@ def display_time():
     st.markdown(current_time)
 
 
+# Set background image
+background_image = "your_image.jpg"
+# Set CSS for the background
+background_css = f"""
+    <style>
+    .stApp {{
+        background-image: url("{background_image}");
+        background-size: cover;
+    }}
+    </style>
+
+# Insert background CSS
+st.markdown(background_css, unsafe_allow_html=True)
+
+# Your Streamlit app content goes here
+st.title('My Streamlit App')
+st.write('Welcome to my Streamlit app with a background image!')
+
+
+
 if __name__ == "__main__":
   display_time()
 # Download NLTK stopwords
