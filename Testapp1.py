@@ -25,7 +25,7 @@ def set_background(image_path):
     background_css = """
         <style>
         .stApp {
-            background-image: url("""" + background.jpg + """");
+            background-image: url("""" + The_Tedtalks_Recommendation_System/background.jpg + """");
             background-size: cover;
         }
         </style>
