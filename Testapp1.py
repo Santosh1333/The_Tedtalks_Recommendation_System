@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import nltk
-import string  # Adding the import statement for the string module
+import string  
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from textblob import TextBlob
@@ -12,16 +12,31 @@ import pytz
 
 def display_time():
     """Displays the current Indian Standard Time."""
-    # Set the timezone to Indian Standard Time (IST)
     ist = pytz.timezone('Asia/Kolkata')
     now = datetime.datetime.now(ist)
     current_time = now.strftime("%I:%M:%S %p")
     st.markdown(current_time)
 
-
+def set_background(image_path):
+    """
+    Function to set background image for Streamlit app.
+    """
+    # Set CSS for the background
+    background_css = f'
+        <style>
+        .stApp {{
+            background-image: url("{background.jpg}");
+            background-size: cover;
+        }}
+        </style>
+    '
+    # Insert background CSS
+    st.markdown(background_css, unsafe_allow_html=True)
 
 if __name__ == "__main__":
-  display_time()
+  set_background('background_image.jpg')  # Change 'background_image.jpg' to the path of your image file
+
+display_time()
 # Download NLTK stopwords
 nltk.download('stopwords')
 nltk.download('punkt')
@@ -36,11 +51,8 @@ df = df.dropna()
 def preprocess_text(text):
     if pd.isnull(text):
         return ''
-    # Lowercase the text
     text = text.lower()
-    # Remove punctuation
     text = text.translate(str.maketrans('', '', string.punctuation))
-    # Remove stopwords
     stop_words = set(nltk.corpus.stopwords.words('english'))
     tokens = nltk.word_tokenize(text)
     text = ' '.join([word for word in tokens if word not in stop_words])
@@ -64,46 +76,35 @@ def get_similarities(talk_content, data=df):
     vectorizer = TfidfVectorizer()
     vectorizer.fit(data['details'])
     talk_array1 = vectorizer.transform(talk_content)
-    details_array = vectorizer.transform(data['details'])  # Vectorize all details at once
+    details_array = vectorizer.transform(data['details'])  
     sim = cosine_similarity(talk_array1, details_array)
-    return sim.flatten()  # Flatten the similarity matrix to a 1D array
+    return sim.flatten()  
 
 # Function to recommend talks with sentiment analysis
 @st.cache
 def recommend_talks_with_sentiment(talk_content, comments, data=df, num_talks=10):
     cos_similarities = get_similarities(talk_content)
     comment_sentiments = comments.apply(analyze_sentiment).values
-
-    # Combine cosine similarities and sentiment analysis
     weighted_score = 0.8 * cos_similarities + (-0.3 )* comment_sentiments
     data['score'] = weighted_score
-
-    # Sort by score and display top recommendations
     recommended_talks = data.sort_values(by='score', ascending=False)
-    return recommended_talks[['title', 'publushed_date', 'like_count']].head(num_talks)  # Return only titles
+    return recommended_talks[['title', 'publushed_date', 'like_count']].head(num_talks)  
 
 # Define Streamlit app
 def main():
     st.title('TED Talk Recommendation System')
-
-    # Input for user to enter their talk content
     talk_content = st.text_input('Enter your talk content:')
-
     if st.button('Recommend Talks'):
-        # Get recommendations
         recommended_titles = recommend_talks_with_sentiment([talk_content], comments)
-        
-        # Display recommended titles
         st.subheader('Recommended Talks:')
-        count = 1  # Initialize count for numbering
+        count = 1  
         for index, row in recommended_titles.iterrows():
             search_query = row['title'].replace(' ', '+')
             google_link = f"https://www.google.com/search?q={search_query}"
             st.write(f"{count}) {row['title']} - [Go]({google_link})", unsafe_allow_html=True)
             st.write(f"          Published Date: {row['publushed_date']}, Likes: {int(row['like_count'])}")
-            count += 1  # Increment count
+            count += 1  
 
-        # Load more button
         if st.button('Load More'):
             recommended_titles = recommend_talks_with_sentiment([talk_content], comments, num_talks=20)
             for index, row in recommended_titles.iloc[10:].iterrows():
@@ -111,7 +112,7 @@ def main():
                 google_link = f"https://www.google.com/search?q={search_query}"
                 st.write(f"{count}) {row['title']} - [Go]({google_link})", unsafe_allow_html=True)
                 st.write(f"          Published Date: {row['publushed_date']}, Likes: {int(row['like_count'])}")
-                count += 1  # Increment count
+                count += 1  
 
 if __name__ == '__main__':
     main()
