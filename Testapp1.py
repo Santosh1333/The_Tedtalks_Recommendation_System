@@ -22,14 +22,14 @@ def set_background(image_path):
     Function to set background image for Streamlit app.
     """
     # Set CSS for the background
-    background_css = f'
+    background_css = f """
         <style>
         .stApp {{
             background-image: url("{background.jpg}");
             background-size: cover;
         }}
         </style>
-    '
+    """
     # Insert background CSS
     st.markdown(background_css, unsafe_allow_html=True)
 
