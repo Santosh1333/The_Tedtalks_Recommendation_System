@@ -85,7 +85,7 @@ def get_similarities(talk_content, data=df):
 def recommend_talks_with_sentiment(talk_content, comments, data=df, num_talks=10):
     cos_similarities = get_similarities(talk_content)
     comment_sentiments = comments.apply(analyze_sentiment).values
-    weighted_score = 0.8 * cos_similarities + (-0.3 )* comment_sentiments
+    weighted_score = 0.8 * cos_similarities + 0.3 * comment_sentiments
     data['score'] = weighted_score
     recommended_talks = data.sort_values(by='score', ascending=False)
     return recommended_talks[['title', 'publushed_date', 'like_count']].head(num_talks)  
