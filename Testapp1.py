@@ -19,23 +19,43 @@ def display_time():
     st.markdown(current_time)
 
 
-# Set background image
-background_image = "your_image.jpg"
-# Set CSS for the background
-background_css = f"""
-    <style>
-    .stApp {{
-        background-image: url("{background_image}");
-        background-size: cover;
-    }}
-    </style>
+import streamlit as st
+from PIL import Image
 
-# Insert background CSS
-st.markdown(background_css, unsafe_allow_html=True)
+def set_background(image):
+    """
+    Function to set background image for Streamlit app.
+    """
+    if image is not None:
+        # Convert PIL image to base64
+        image_base64 = Image.open(image).convert('RGBA')
+        st.markdown(
+            f"""
+            <style>
+            .reportview-container {{
+                background: url(data:image/png;base64,{image_base64}) center;
+                background-size: cover;
+            }}
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
 
-# Your Streamlit app content goes here
-st.title('My Streamlit App')
-st.write('Welcome to my Streamlit app with a background image!')
+def main():
+    st.title("Streamlit App with Background Image")
+    st.write("Upload an image to set as background:")
+
+    # File uploader for the user to upload an image
+    uploaded_image = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
+
+    # Call function to set background image
+    set_background(uploaded_image)
+
+    # Other Streamlit components can be added here
+    st.write("This is your Streamlit app with a custom background image!")
+
+if __name__ == "__main__":
+    main()
 
 
 
